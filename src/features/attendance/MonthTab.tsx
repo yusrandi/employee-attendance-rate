@@ -31,7 +31,7 @@ export const MonthTab: React.FC<MonthTabProps> = ({ monthData }) => {
 
       <EmployeeDetailTable
         data={monthData}
-        title={`Detail Kehadiran ${monthData[0]?.month}`}
+        // title={`Detail Kehadiran ${monthData[0]?.month}`}
       />
     </div>
   )

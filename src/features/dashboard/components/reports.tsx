@@ -164,10 +164,10 @@ const AttendanceDashboard: React.FC = () => {
   }
 
   // Calculate ATR from record (for validation)
-  const calculateATR = (hariKerja: number, total: number): number => {
-    if (total === 0) return 0
-    return Math.round((hariKerja / total) * 100)
-  }
+  //   const calculateATR = (hariKerja: number, total: number): number => {
+  //     if (total === 0) return 0
+  //     return Math.round((hariKerja / total) * 100)
+  //   }
 
   const calculateOverallAttendance = (): number => {
     if (data.length === 0) return 0
@@ -439,8 +439,8 @@ const AttendanceDashboard: React.FC = () => {
                         cx='50%'
                         cy='50%'
                         labelLine={false}
-                        label={({ category, percentage }) =>
-                          `${category.split('(')[0].trim()}: ${percentage}%`
+                        label={({ payload }) =>
+                          `${payload.category.split('(')[0].trim()}: ${payload.percentage}%`
                         }
                         outerRadius={100}
                         fill='#8884d8'

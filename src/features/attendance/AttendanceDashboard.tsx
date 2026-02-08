@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AttendanceDistributionChart } from './AttendanceDistributionChart'
 import { AttendanceTrendChart } from './AttendanceTrendChart'
-import { ChartPieSeparatorNone } from './ChartTest'
 import { DepartmentBarChart } from './DepartmentBarChart'
 import { DepartmentTable } from './DepartmentTable'
 import { EmployeeDetailTable } from './EmployeeDetailTable'
@@ -223,10 +222,7 @@ const AttendanceDashboard: React.FC = () => {
                 <DepartmentBarChart data={stats.departmentStats} />
 
                 <DepartmentTable data={stats.departmentStats} />
-                <EmployeeDetailTable
-                  data={stats.allData}
-                  title='Semua Data Karyawan'
-                />
+                <EmployeeDetailTable data={stats.allData} />
               </TabsContent>
 
               {/* Individual Month Tabs */}

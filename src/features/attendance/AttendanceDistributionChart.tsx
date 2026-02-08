@@ -1,14 +1,6 @@
 // components/AttendanceDistributionChart.tsx
 import React from 'react'
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ResponsiveContainer,
-  PieSectorDataItem,
-  Sector,
-} from 'recharts'
+import { PieChart, Pie, Cell } from 'recharts'
 import {
   Card,
   CardContent,
@@ -28,16 +20,6 @@ interface AttendanceDistributionChartProps {
   data: AttendanceDistribution[]
 }
 
-const categories = [
-  { key: 'H', label: 'Hadir', color: 'var(--chart-1)' },
-  { key: 'A', label: 'Absent', color: 'var(--chart-2)' },
-  { key: 'I', label: 'Izin', color: 'var(--chart-3)' },
-  { key: 'S', label: 'Sakit', color: 'var(--chart-4)' },
-  { key: 'CT', label: 'Cuti', color: 'var(--chart-5)' },
-  //   { key: 'IT', label: 'IT', color: '#ec4899' },
-  //   { key: 'L', label: 'Lainnya (L)', color: '#6b7280' },
-  { key: 'OFF', label: 'OFF', color: '#14b8a6' },
-]
 const chartConfig = {
   Hadir: {
     label: 'Hadir',
