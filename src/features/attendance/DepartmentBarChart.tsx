@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { BarChart, Bar, CartesianGrid, XAxis, LabelList } from 'recharts'
 import {
   Card,
   CardContent,
@@ -43,23 +43,30 @@ export function DepartmentBarChart({ data }: DepartmentBarChartProps) {
 
       <CardContent>
         <ChartContainer config={chartConfig} className='h-80 w-full'>
-          <BarChart data={data} accessibilityLayer>
+          <BarChart
+            data={data}
+            accessibilityLayer
+            margin={{ top: 40, right: 16, left: 16, bottom: 10 }}
+          >
             <CartesianGrid vertical={false} />
 
-            <YAxis
-              tickLine={false}
+            {/* <YAxis
+              tickLine={true}
               axisLine={false}
               tickMargin={10}
-              //   tickFormatter={(value) => `${value}%`}
-              domain={[0, 100]}
-            />
+              tickFormatter={(value) => `${value}%`}
+              domain={[0, 110]}
+              interval={0}
+              ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+            /> */}
 
             <XAxis
               dataKey='department'
               tickLine={false}
               axisLine={false}
               tickMargin={10}
-              angle={-45}
+              fontSize={10}
+              //   angle={-45}
             />
 
             <ChartTooltip
@@ -78,7 +85,14 @@ export function DepartmentBarChart({ data }: DepartmentBarChartProps) {
               //   fill={chartConfig.avgAttendance.color}
               fill='currentColor'
               radius={4}
-            />
+            >
+              <LabelList
+                dataKey='avgAttendance'
+                position='top'
+                // fontSize={16}
+                formatter={(value) => `${value}%`}
+              />
+            </Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>

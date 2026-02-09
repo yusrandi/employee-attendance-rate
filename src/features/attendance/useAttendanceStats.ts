@@ -45,13 +45,15 @@ export const useAttendanceStats = (allMonthsData: AttendanceRecord[][]) => {
 
     const categories = [
       { key: 'H', label: 'Hadir', color: 'var(--chart-2)' },
-      { key: 'A', label: 'Absent', color: 'var(--chart-1)' },
-      { key: 'I', label: 'Izin', color: 'var(--chart-3)' },
-      { key: 'S', label: 'Sakit', color: 'var(--chart-4)' },
+      { key: 'A', label: 'Alpha', color: 'var(--chart-1)' },
+      { key: 'I', label: 'Izin Resmi', color: 'var(--chart-3)' },
+      { key: 'IT', label: 'Izin Tidak Resmi', color: 'var(--chart-3)' },
+      { key: 'S', label: 'Sakit dgn surat dokter', color: 'var(--chart-4)' },
+      { key: 'S1', label: 'Sakit tanpa surat dokter', color: 'var(--chart-4)' },
       { key: 'CT', label: 'Cuti', color: 'var(--chart-5)' },
-      //   { key: 'IT', label: 'IT', color: '#ec4899' },
-      //   { key: 'L', label: 'Lainnya (L)', color: '#6b7280' },
+      { key: 'L', label: 'Libur', color: '#6b7280' },
       { key: 'OFF', label: 'OFF', color: '#14b8a6' },
+      { key: 'M1', label: 'Masuk 1/2 Hari', color: '#14b8a6' },
     ]
 
     const total = allData.reduce((sum, record) => sum + (record.TOTAL || 0), 0)
@@ -88,6 +90,8 @@ export const useAttendanceStats = (allMonthsData: AttendanceRecord[][]) => {
 
     return Array.from(deptMap.entries())
       .map(([department, records]) => {
+        // console.log({ department, records })
+
         const totalEmployees = records.length
         const avgAttendance = Math.round(
           records.reduce(
@@ -97,6 +101,19 @@ export const useAttendanceStats = (allMonthsData: AttendanceRecord[][]) => {
         )
         const presentDays = records.reduce((sum, r) => sum + (r.H || 0), 0)
         const absentDays = records.reduce((sum, r) => sum + (r.A || 0), 0)
+        const totalI = records.reduce((sum, r) => sum + (r.I || 0), 0)
+        const totalIT = records.reduce((sum, r) => sum + (r.IT || 0), 0)
+        const totalS = records.reduce((sum, r) => sum + (r.S || 0), 0)
+        const totalS1 = records.reduce((sum, r) => sum + (r.S1 || 0), 0)
+        const totalL = records.reduce((sum, r) => sum + (r.L || 0), 0)
+        const totalCT = records.reduce((sum, r) => sum + (r.CT || 0), 0)
+        const totalM1 = records.reduce((sum, r) => sum + (r.M1 || 0), 0)
+        const totalOFF = records.reduce((sum, r) => sum + (r.OFF || 0), 0)
+        const totalHari = records.reduce((sum, r) => sum + (r.TOTAL || 0), 0)
+        const totalRsg = records.reduce(
+          (sum, r) => sum + (r['Rsg/New'] || 0),
+          0
+        )
         const totalWorkDays = records.reduce(
           (sum, r) => sum + (r['Hari kerja'] || 0),
           0
@@ -109,6 +126,16 @@ export const useAttendanceStats = (allMonthsData: AttendanceRecord[][]) => {
           presentDays,
           absentDays,
           totalWorkDays,
+          totalI,
+          totalIT,
+          totalS,
+          totalS1,
+          totalL,
+          totalCT,
+          totalM1,
+          totalOFF,
+          totalHari,
+          totalRsg,
         }
       })
       .sort((a, b) => b.avgAttendance - a.avgAttendance)

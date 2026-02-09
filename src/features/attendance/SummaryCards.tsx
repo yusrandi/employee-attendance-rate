@@ -51,9 +51,7 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({
 
       <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-          <CardTitle className='text-sm font-medium'>
-            Total Hari Hadir
-          </CardTitle>
+          <CardTitle className='text-sm font-medium'>Total Hadir</CardTitle>
           <Calendar className='h-4 w-4 text-green-600' />
         </CardHeader>
         <CardContent>
@@ -66,9 +64,7 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({
 
       <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-          <CardTitle className='text-sm font-medium'>
-            Total Hari Absent
-          </CardTitle>
+          <CardTitle className='text-sm font-medium'>Total Alpha</CardTitle>
           <Calendar className='h-4 w-4 text-red-600' />
         </CardHeader>
         <CardContent>

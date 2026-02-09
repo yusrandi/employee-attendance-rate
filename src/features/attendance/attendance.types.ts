@@ -33,6 +33,16 @@ export interface DepartmentStats {
   presentDays: number
   absentDays: number
   totalWorkDays: number
+  totalI: number
+  totalIT: number
+  totalS: number
+  totalS1: number
+  totalL: number
+  totalCT: number
+  totalM1: number
+  totalOFF: number
+  totalHari: number
+  totalRsg: number
 }
 
 export interface MonthlyTrend {

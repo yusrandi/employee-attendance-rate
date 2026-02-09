@@ -42,10 +42,20 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({ data }) => {
               <TableRow>
                 <TableHead>Departemen</TableHead>
                 <TableHead className='text-right'>Total Karyawan</TableHead>
-                <TableHead className='text-right'>Avg Attendance</TableHead>
                 <TableHead className='text-right'>Total Hari Kerja</TableHead>
-                <TableHead className='text-right'>Total Hadir</TableHead>
-                <TableHead className='text-right'>Total Absent</TableHead>
+                <TableHead className='text-right'>Total Hari</TableHead>
+                <TableHead className='text-right'>Avg Attendance</TableHead>
+                <TableHead className='text-right'>H</TableHead>
+                <TableHead className='text-right'>A</TableHead>
+                <TableHead className='text-right'>I</TableHead>
+                <TableHead className='text-right'>IT</TableHead>
+                <TableHead className='text-right'>S</TableHead>
+                <TableHead className='text-right'>S1</TableHead>
+                <TableHead className='text-right'>L</TableHead>
+                <TableHead className='text-right'>Cuti</TableHead>
+                <TableHead className='text-right'>M1</TableHead>
+                <TableHead className='text-right'>OFF</TableHead>
+                <TableHead className='text-right'>RSG/NH</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -60,6 +70,12 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({ data }) => {
                   <TableCell className='text-right'>
                     {dept.totalEmployees}
                   </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalWorkDays}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalHari}
+                  </TableCell>
                   <TableCell className='text-right'>
                     <span
                       className={`font-semibold ${getColorClass(dept.avgAttendance)}`}
@@ -67,14 +83,39 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({ data }) => {
                       {dept.avgAttendance}%
                     </span>
                   </TableCell>
-                  <TableCell className='text-right text-green-600'>
-                    {dept.totalWorkDays}
-                  </TableCell>
+
                   <TableCell className='text-right text-green-600'>
                     {dept.presentDays}
                   </TableCell>
                   <TableCell className='text-right text-red-600'>
                     {dept.absentDays}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalI}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalIT}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalS}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalS1}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalL}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalCT}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalM1}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalOFF}
+                  </TableCell>
+                  <TableCell className='text-right text-green-600'>
+                    {dept.totalRsg}
                   </TableCell>
                 </TableRow>
               ))}
