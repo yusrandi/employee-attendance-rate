@@ -14,7 +14,11 @@ import { MonthTab } from './MonthTab'
 import { PTFilter } from './Ptfilter'
 import { SummaryCards } from './SummaryCards'
 import { AttendanceRecord } from './attendance.types'
-import { isMultiMonthFormat, parseMultiMonthExcel } from './parseExcel'
+import {
+  isMultiMonthFormat,
+  parseMultiMonthExcel,
+  parseSingleMonthExcel,
+} from './parseExcel'
 import { useAttendanceStats } from './useAttendanceStats'
 
 const AttendanceDashboard: React.FC = () => {
@@ -65,20 +69,22 @@ const AttendanceDashboard: React.FC = () => {
           raw: false,
         })
 
+        let monthsData: AttendanceRecord[][] = []
+
         // Check if multi-month format
         if (isMultiMonthFormat(jsonData)) {
-          const monthsData = parseMultiMonthExcel(jsonData)
-
-          if (monthsData.length > 0) {
-            setAllMonthsData(monthsData)
-            console.log(`✅ Loaded ${monthsData.length} months of data`)
-          } else {
-            setError('No valid data found in file.')
-          }
+          console.log('📊 Detected: Multi-month format')
+          monthsData = parseMultiMonthExcel(jsonData)
         } else {
-          setError(
-            'File is not in multi-month format. Please use the correct template.'
-          )
+          console.log('📊 Detected: Single-month format')
+          monthsData = parseSingleMonthExcel(jsonData)
+        }
+
+        if (monthsData.length > 0) {
+          setAllMonthsData(monthsData)
+          console.log(`✅ Loaded ${monthsData.length} month(s) of data`)
+        } else {
+          setError('No valid data found in file.')
         }
 
         setLoading(false)
@@ -98,12 +104,14 @@ const AttendanceDashboard: React.FC = () => {
   }
 
   return (
-    <div className='min-h-screen p-6'>
+    <div className='min-h-screen bg-gray-50 p-6'>
       <div className='mx-auto max-w-7xl space-y-6'>
         {/* Header */}
         <div className='flex items-center justify-between'>
           <div>
-            <h1 className='text-3xl font-bold'>Dashboard Kehadiran Karyawan</h1>
+            <h1 className='text-3xl font-bold text-gray-900'>
+              Dashboard Kehadiran Karyawan
+            </h1>
             <p className='mt-1 text-gray-500'>
               {allMonthsData.length > 0
                 ? `Menampilkan data ${filteredMonthsData.length} bulan - ${filteredMonthsData.map((m) => m[0]?.month).join(', ')}`

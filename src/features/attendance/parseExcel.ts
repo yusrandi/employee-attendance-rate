@@ -151,6 +151,115 @@ const parseMonthData = (
 }
 
 /**
+ * Parse Excel file with SINGLE month format
+ * Structure: Standard format with data starting at column 8
+ */
+export const parseSingleMonthExcel = (
+  jsonData: any[]
+): AttendanceRecord[][] => {
+  const parsedData: AttendanceRecord[] = []
+
+  if (jsonData.length < 3) return []
+
+  // Extract month from header (Row 3, Column 8)
+  let monthLabel = ''
+  let monthDate: Date | undefined
+
+  if (jsonData[2] && jsonData[2][7]) {
+    const dateValue = jsonData[2][7]
+
+    try {
+      const date = new Date(dateValue)
+      if (!isNaN(date.getTime())) {
+        monthDate = date
+        const monthNames = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ]
+        const month = monthNames[date.getMonth()]
+        const year = date.getFullYear().toString().slice(-2)
+        monthLabel = `${month}-${year}`
+      }
+    } catch (e) {
+      console.error('Error parsing date:', e)
+    }
+  }
+
+  // If no month detected, use current month
+  if (!monthLabel) {
+    const now = new Date()
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]
+    monthLabel = `${monthNames[now.getMonth()]}-${now.getFullYear().toString().slice(-2)}`
+    monthDate = now
+  }
+
+  // Data starts from row 8 (index 7)
+  const startCol = 7 // Column 8 (0-indexed: 7)
+
+  for (let i = 7; i < jsonData.length; i++) {
+    const row = jsonData[i]
+
+    if (!row[0] || isNaN(Number(row[0]))) continue
+
+    const record: AttendanceRecord = {
+      NO: Number(row[0]) || 0,
+      PT: String(row[1] || ''),
+      PENEMPATAN: String(row[2] || ''),
+      NIK: row[3] || '',
+      NAMA: String(row[4] || ''),
+      DEPARTEMENT: String(row[5] || ''),
+      JABATAN: String(row[6] || ''),
+
+      H: Number(row[startCol]) || 0,
+      'Hari kerja': Number(row[startCol + 1]) || 0,
+      'Rsg/New': Number(row[startCol + 2]) || 0,
+      I: Number(row[startCol + 3]) || 0,
+      S: Number(row[startCol + 4]) || 0,
+      S1: Number(row[startCol + 5]) || 0,
+      IT: Number(row[startCol + 6]) || 0,
+      A: Number(row[startCol + 7]) || 0,
+      CT: Number(row[startCol + 8]) || 0,
+      L: Number(row[startCol + 9]) || 0,
+      M1: Number(row[startCol + 10]) || 0,
+      OFF: Number(row[startCol + 11]) || 0,
+      TOTAL: Number(row[startCol + 12]) || 0,
+      ATR: Number(row[startCol + 13]) || 0,
+
+      month: monthLabel,
+      monthDate: monthDate || new Date(),
+    }
+
+    parsedData.push(record)
+  }
+
+  // Return as array of single month
+  return parsedData.length > 0 ? [parsedData] : []
+}
+
+/**
  * Helper to check if Excel has multi-month format
  */
 export const isMultiMonthFormat = (jsonData: any[]): boolean => {
