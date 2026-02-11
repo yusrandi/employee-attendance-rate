@@ -1,5 +1,5 @@
 // components/AttendanceDistributionChart.tsx
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { PieChart, Pie, Cell } from 'recharts'
 import {
   Card,
