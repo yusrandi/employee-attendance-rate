@@ -52,11 +52,19 @@ export interface MonthlyTrend {
   absent: number
 }
 
+export interface AttendanceBreakdownEmployee {
+  nik: string | number
+  nama: string
+  departemen: string
+  count: number
+}
+
 export interface AttendanceDistribution {
   category: string
   count: number
   percentage: number
   color: string
+  employees: AttendanceBreakdownEmployee[]
 }
 
 export interface MonthlyData {

@@ -42,8 +42,8 @@ export const DepartmentTable: React.FC<DepartmentTableProps> = ({ data }) => {
               <TableRow>
                 <TableHead>Departemen</TableHead>
                 <TableHead className='text-right'>Total Karyawan</TableHead>
-                <TableHead className='text-right'>Total Hari Kerja</TableHead>
-                <TableHead className='text-right'>Total Hari</TableHead>
+                <TableHead className='text-right'>Manday Actual</TableHead>
+                <TableHead className='text-right'>Manday Plan</TableHead>
                 <TableHead className='text-right'>Avg Attendance</TableHead>
                 <TableHead className='text-right'>H</TableHead>
                 <TableHead className='text-right'>A</TableHead>

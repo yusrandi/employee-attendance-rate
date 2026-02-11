@@ -5,6 +5,7 @@ import {
   AttendanceRecord,
   DepartmentStats,
   MonthlyTrend,
+  AttendanceBreakdownEmployee,
 } from './attendance.types'
 import { toPercent } from './calculations'
 
@@ -39,7 +40,7 @@ export const useAttendanceStats = (allMonthsData: AttendanceRecord[][]) => {
     return allData.reduce((sum, record) => sum + (record.A || 0), 0)
   }, [allData])
 
-  // Get attendance distribution
+  // Get attendance distribution with employee breakdown
   const attendanceDistribution = useMemo((): AttendanceDistribution[] => {
     if (allData.length === 0) return []
 
@@ -60,16 +61,40 @@ export const useAttendanceStats = (allMonthsData: AttendanceRecord[][]) => {
 
     return categories
       .map((cat) => {
-        const count = allData.reduce((sum, record) => {
+        const employeeMap = new Map<string, AttendanceBreakdownEmployee>()
+        let totalCount = 0
+
+        allData.forEach((record) => {
           const value = record[cat.key as keyof AttendanceRecord]
-          return sum + (typeof value === 'number' ? value : 0)
-        }, 0)
+          const count = typeof value === 'number' ? value : 0
+
+          if (count > 0) {
+            totalCount += count
+            const nik = String(record.NIK)
+
+            if (employeeMap.has(nik)) {
+              employeeMap.get(nik)!.count += count
+            } else {
+              employeeMap.set(nik, {
+                nik: record.NIK,
+                nama: record.NAMA || 'Unknown',
+                departemen: record.DEPARTEMENT || 'Unknown',
+                count,
+              })
+            }
+          }
+        })
+
+        const employees = Array.from(employeeMap.values()).sort(
+          (a, b) => b.count - a.count
+        )
 
         return {
           category: cat.label,
-          count,
-          percentage: total > 0 ? Math.round((count / total) * 100) : 0,
+          count: totalCount,
+          percentage: total > 0 ? Math.round((totalCount / total) * 100) : 0,
           color: cat.color,
+          employees,
         }
       })
       .filter((item) => item.count > 0)
@@ -90,8 +115,6 @@ export const useAttendanceStats = (allMonthsData: AttendanceRecord[][]) => {
 
     return Array.from(deptMap.entries())
       .map(([department, records]) => {
-        // console.log({ department, records })
-
         const totalEmployees = records.length
         const avgAttendance = Math.round(
           records.reduce(
